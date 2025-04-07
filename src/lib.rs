@@ -269,6 +269,10 @@ pub trait PrimeField: Field + From<u64> {
     /// returned by [`PrimeField::to_repr`].
     fn from_repr(repr: Self::Repr) -> CtOption<Self>;
 
+    fn from_montgomery_repr(repr: Self::Repr) -> CtOption<Self> {
+        Self::from_repr(repr)
+    }
+
     /// Attempts to convert a byte representation of a field element into an element of
     /// this prime field, failing if the input is not canonical (is not smaller than the
     /// field's modulus).
@@ -290,6 +294,10 @@ pub trait PrimeField: Field + From<u64> {
     /// The endianness of the byte representation is implementation-specific. Generic
     /// encodings of field elements should be treated as opaque.
     fn to_repr(&self) -> Self::Repr;
+
+    fn to_montgomery_repr(&self) -> Self::Repr {
+        self.to_repr()
+    }
 
     /// Returns true iff this element is odd.
     fn is_odd(&self) -> Choice;
